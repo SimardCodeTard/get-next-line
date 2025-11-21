@@ -6,7 +6,7 @@
 /*   By: smenard <smenard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 13:56:31 by smenard           #+#    #+#             */
-/*   Updated: 2025/11/21 14:21:18 by smenard          ###   ########.fr       */
+/*   Updated: 2025/11/21 14:55:23 by smenard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,21 +61,7 @@ t_line_extract_result	extract_line(char *buffer, char *line)
 ssize_t	read_file(int fd, char *buffer, size_t size)
 {
 	ssize_t	read_result;
-	// size_t	total_bytes_read;
 
-	// read_result = 1;
-	// total_bytes_read = 0;
-	// while (read_result > 0 && total_bytes_read < size)
-	// {
-	// 	read_result = read(fd, buffer + total_bytes_read,
-	// 			size - total_bytes_read);
-	// 	if (read_result > 0)
-	// 		total_bytes_read += read_result;
-	// }
-	// if (read_result == -1)
-	// 	return (read_result);
-	// buffer[total_bytes_read] = '\0';
-	// return (total_bytes_read);
 	read_result = read(fd, buffer, size);
 	if (read_result >= 0)
 		buffer[read_result] = '\0';
