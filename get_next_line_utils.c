@@ -6,65 +6,59 @@
 /*   By: smenard <smenard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 13:56:31 by smenard           #+#    #+#             */
-/*   Updated: 2025/11/20 16:41:46 by smenard          ###   ########.fr       */
+/*   Updated: 2025/11/21 08:52:34 by smenard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
 /**
- * Counts the number of charcaters in the NULL terminated buffer until we reach
- * the end of a line or the end of the buffer
+ * Counts the length of the given string unitl the first occurence of the stop character
  */
-size_t	next_line_len(char *buffer, size_t size)
+size_t	ft_strlen(char *str, int8_t stop)
 {
-	size_t	i;
+	size_t	len;
 
-	i = 0;
-	while (i < size && buffer[i] && buffer[i] != '\n')
-	{
-		i++;
-	}
-	i += buffer[i] == '\n';
-	return (i);
+	if (!str)
+		return (0);
+	len = 0;
+	while (str[len] && str[len] != stop)
+		len++;
+	return (len);
 }
 
 /**
  * Extract the next line from the buffer and returns it
  */
-char	*extract_line(int fd, char *buffer, size_t rest_len)
+char	*extract_line(int fd, char *buffer, ssize_t rest_len)
 {
 	size_t	i;
 	size_t	line_len;
-	size_t	full_line_len;
 	char	*full_line;
 	char	*current_line;
+	bool	line_complete;
 
 	full_line = NULL;
-	full_line_len = 0;
-	i = 0;
-	while (buffer[i] != '\n' && (read_exact(fd, buffer + rest_len, BUFFER_SIZE - rest_len) > 0 || rest_len > 0))
+	line_complete = false;
+	while (rest_len > 0 && (read_exact(fd, buffer + rest_len, BUFFER_SIZE
+		- rest_len) > 0 || rest_len > 0) && !line_complete)
 	{
-		line_len = next_line_len(buffer, BUFFER_SIZE);
+		i = 0;
+		line_len = ft_strlen(buffer, '\n');
 		current_line = malloc((line_len + 1) * sizeof(char));
 		if (!current_line)
 			return (NULL);
 		while (i < line_len)
 		{
 			current_line[i] = buffer[i];
-			i++;
+			if (buffer[i++] == '\n')
+				line_complete = true;
 		}
 		current_line[i] = '\0';
 		full_line = ft_strjoin(full_line, current_line);
 		if (!full_line)
 			return (safe_free_return((void **) &current_line, 1, NULL));
-		full_line_len += line_len;
-		if (rest_len < line_len)
-			rest_len = 0;
-		else
-			rest_len -= line_len;
-		if (i > 0 && buffer[i - 1] == '\n')
-			break ;
+		rest_len -= line_len;
 	}
 	return (full_line);
 }

@@ -6,7 +6,7 @@
 /*   By: smenard <smenard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 15:18:59 by smenard           #+#    #+#             */
-/*   Updated: 2025/11/20 13:37:32 by smenard          ###   ########.fr       */
+/*   Updated: 2025/11/21 08:53:00 by smenard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,13 +28,13 @@ char	*get_next_line(int fd)
 	rest = get_rest(fd);
 	if (!rest)
 		return (NULL);
-	rest_len = ft_strlen(rest);
+	rest_len = ft_strlen(rest, '\0');
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	ft_strncpy(rest, buffer, rest_len);
 	if (!buffer)
 		return (safe_free_return((void **) &buffer, 1, NULL));
 	line = extract_line(fd, buffer, rest_len);
-	last_line_len = ft_strlen(line);
+	last_line_len = ft_strlen(line, '\0');
 	extract_rest(rest, buffer, last_line_len);
 	// if (rest && !rest[0])
 	// 	free(rest);
@@ -93,19 +93,4 @@ char	*ft_strncpy(char *src, char *dest, size_t n)
 	}
 	dest[i] = '\0';
 	return (dest);
-}
-
-/**
- * Counts the length of the given NULL-terminated string
- */
-size_t	ft_strlen(char *str)
-{
-	size_t	len;
-
-	if (!str)
-		return (0);
-	len = 0;
-	while (str[len])
-		len++;
-	return (len);
 }
