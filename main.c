@@ -6,7 +6,7 @@
 /*   By: smenard <smenard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 15:46:29 by smenard           #+#    #+#             */
-/*   Updated: 2025/11/20 16:42:22 by smenard          ###   ########.fr       */
+/*   Updated: 2025/11/21 13:17:59 by smenard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ int	main(void)
 	int		fd;
 
 	// Norminette flag me :3
-	fd = open("test.txt", O_RDONLY);
+	fd = open("read-error.txt", O_RDONLY);
 	line = get_next_line(fd);
 	while (line)
 	{
+		close(fd);
 		printf("line : %s", line);
 		free(line);
 		line = get_next_line(fd);

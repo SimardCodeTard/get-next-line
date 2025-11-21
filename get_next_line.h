@@ -6,7 +6,7 @@
 /*   By: smenard <smenard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:37 by smenard           #+#    #+#             */
-/*   Updated: 2025/11/21 08:51:33 by smenard          ###   ########.fr       */
+/*   Updated: 2025/11/21 14:21:18 by smenard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 16
+#  define BUFFER_SIZE 2048
 # endif
 
 # ifndef MAX_FD
@@ -28,26 +28,36 @@
 # include <stdbool.h>
 # include <stdint.h>
 
+typedef enum e_extract_line_result
+{
+	INCOMPLETE,
+	COMPLETE,
+	BUFFER_END,
+	NO_LINES
+}						t_line_extract_result;
+
 /* ===== get_next_line.c ===== */
 
-char	*get_next_line(int fd);
+char					*get_next_line(int fd);
 
-char	*get_rest(int fd);
+char					**get_rest(int fd);
 
-void	extract_rest(char *rest, char *buffer, size_t last_line_len);
+void					extract_rest(char **rest, char *buffer,
+							size_t last_line_len);
 
-char	*ft_strncpy(char *src, char *dest, size_t n);
+char					*ft_strcpy(char *src, char *dest);
 
 /* ===== get_next_line_utils.c ===== */
 
-size_t	ft_strlen(char *str, int8_t stop);
+size_t					ft_strlen(char *str, int8_t stop);
 
-char	*extract_line(int fd, char *buffer, ssize_t rest_len);
+t_line_extract_result	extract_line(char *buffer, char *line);
 
-size_t	read_exact(int fd, char *buffer, size_t size);
+ssize_t					read_file(int fd, char *buffer, size_t size);
 
-char	*ft_strjoin(char *s1, char *s2);
+char					*ft_strjoin(char *s1, char *s2);
 
-void	*safe_free_return(void **ptrs, size_t ptrs_len, void *value);
+void					*safe_free_return(void **ptrs, size_t ptrs_len,
+							void *value);
 
 #endif
