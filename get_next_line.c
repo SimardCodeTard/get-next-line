@@ -6,7 +6,7 @@
 /*   By: smenard <smenard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 15:18:59 by smenard           #+#    #+#             */
-/*   Updated: 2025/11/21 14:26:32 by smenard          ###   ########.fr       */
+/*   Updated: 2025/11/21 15:25:13 by smenard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,15 @@ char	*build_next_line(int fd, char *buffer, size_t *last_part_len)
 	{
 		line_part = malloc((ft_strlen(buffer, '\n') + 1) * sizeof(char));
 		if (!line_part)
-			return (safe_free_return((void **) &full_line, 1, NULL));
+			return (safe_free_return(full_line, NULL, NULL, NULL));
 		extract_line_res = extract_line(buffer, line_part);
 		*last_part_len = ft_strlen(line_part, '\0');
-		full_line = ft_strjoin(full_line, line_part);
+		full_line = ft_strjoin_free(full_line, line_part);
 		if (extract_line_res == BUFFER_END)
 		{
 			read_result = read_file(fd, buffer, BUFFER_SIZE);
 			if (read_result == -1)
-				return (safe_free_return((void **) &full_line, 1, NULL));
+				return (safe_free_return(full_line, NULL, NULL, NULL));
 			if (read_result <= 0)
 				extract_line_res = NO_LINES;
 		}
@@ -61,29 +61,16 @@ char	*get_next_line(int fd)
 		return (NULL);
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
-		return (safe_free_return((void **) &rest, 2, NULL));
+		return (safe_free_return(NULL, NULL, rest, NULL));
 	ft_strcpy(*rest, buffer);
 	if (!buffer[0])
 		if (read_file(fd, buffer, BUFFER_SIZE) == -1)
-		{
-			free(*rest);
-			*rest = NULL;
-			return (safe_free_return((void **) &buffer, 1, NULL));
-		}
+			return (safe_free_return(NULL, buffer, rest, NULL));
 	line = build_next_line(fd, buffer, &last_part_line);
-	if (!line)
-	{
-		free(*rest);
-		*rest = NULL;
-		free(buffer);
-	}
-	if (line && !line[0])
-	{
-		free(line);
-		line = NULL;
-	}
+	if (!line || !line[0])
+		return (safe_free_return(line, buffer, rest, NULL));
 	extract_rest(rest, buffer, last_part_line);
-	return (safe_free_return((void **) &buffer, 1, line));
+	return (safe_free_return(NULL, buffer, NULL, line));
 }
 
 /**

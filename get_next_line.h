@@ -6,7 +6,7 @@
 /*   By: smenard <smenard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:37 by smenard           #+#    #+#             */
-/*   Updated: 2025/11/21 14:21:18 by smenard          ###   ########.fr       */
+/*   Updated: 2025/11/21 15:25:13 by smenard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ t_line_extract_result	extract_line(char *buffer, char *line);
 
 ssize_t					read_file(int fd, char *buffer, size_t size);
 
-char					*ft_strjoin(char *s1, char *s2);
+char					*ft_strjoin_free(char *s1, char *s2);
 
-void					*safe_free_return(void **ptrs, size_t ptrs_len,
-							void *value);
+void					*safe_free_return(char *line, char *buffer,
+							char **rest, void *value);
 
 #endif

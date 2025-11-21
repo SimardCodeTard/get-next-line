@@ -6,7 +6,7 @@
 /*   By: smenard <smenard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 13:56:31 by smenard           #+#    #+#             */
-/*   Updated: 2025/11/21 14:55:23 by smenard          ###   ########.fr       */
+/*   Updated: 2025/11/21 15:25:55 by smenard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,48 +72,44 @@ ssize_t	read_file(int fd, char *buffer, size_t size)
  * Allocates memory and returns a string containing s1 and s2 joined together
  * The input strings are freed
  */
-char	*ft_strjoin(char *s1, char *s2)
+char	*ft_strjoin_free(char *s1, char *s2)
 {
-	const char	*ptrs[2] = {s1, s2};
-	ssize_t		i;
-	ssize_t		j;
-	char		*s_joined;
+	const size_t	s1_len = ft_strlen(s1, '\0');
+	const size_t	s2_len = ft_strlen(s2, '\0');
+	ssize_t			i;
+	char			*s_joined;
 
 	i = 0;
-	s_joined = malloc((ft_strlen(s1, '\0') + ft_strlen(s2, '\0') + 1)
-			* sizeof(char));
+	s_joined = malloc((s1_len + s2_len + 1) * sizeof(char));
 	if (!s_joined)
-		return (safe_free_return((void **) ptrs, 2, NULL));
+		return (safe_free_return(s1, s2, NULL, NULL));
 	while (s1 && s1[i])
 	{
 		s_joined[i] = s1[i];
 		i++;
 	}
-	j = i;
-	i = 0;
-	while (s2 && s2[i])
+	while (s2 && s2[i - s1_len])
 	{
-		s_joined[j] = s2[i];
+		s_joined[i] = s2[i - s1_len];
 		i++;
-		j++;
 	}
-	s_joined[j] = '\0';
-	return (safe_free_return((void **) ptrs, 2, s_joined));
+	s_joined[i] = '\0';
+	free(s1);
+	free(s2);
+	return (s_joined);
 }
 
 /**
  * Frees all pointers in ptrs and returns value
  */
-void	*safe_free_return(void **ptrs, size_t ptrs_size, void *value)
+void	*safe_free_return(char *line, char *buffer, char **rest, void *value)
 {
-	size_t	i;
-
-	i = 0;
-	while (i < ptrs_size)
+	free(line);
+	free(buffer);
+	if (rest)
 	{
-		if (ptrs[i])
-			free(ptrs[i]);
-		i++;
+		free(*rest);
+		*rest = NULL;
 	}
 	return (value);
 }
