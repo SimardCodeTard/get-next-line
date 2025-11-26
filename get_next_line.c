@@ -6,7 +6,7 @@
 /*   By: smenard <smenard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 15:18:59 by smenard           #+#    #+#             */
-/*   Updated: 2025/11/26 09:49:41 by smenard          ###   ########.fr       */
+/*   Updated: 2025/11/26 09:56:08 by smenard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*get_next_line(int fd)
 	t_buffer	**buffer;
 	char		*line;
 
-	if (fd < 0 && fd >= MAX_FD)
+	if (fd < 0 || fd >= MAX_FD)
 		return (NULL);
 	buffer = get_buffer(fd);
 	if (!buffer || !*buffer)
