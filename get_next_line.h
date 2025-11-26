@@ -6,7 +6,7 @@
 /*   By: smenard <smenard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:37 by smenard           #+#    #+#             */
-/*   Updated: 2025/11/25 14:58:58 by smenard          ###   ########.fr       */
+/*   Updated: 2025/11/26 09:39:24 by smenard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,6 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <stdbool.h>
-# include <limits.h>
-# include <stdbool.h>
-# include <stdint.h>
 
 typedef enum e_line_build_status
 {
