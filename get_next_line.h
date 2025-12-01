@@ -6,7 +6,7 @@
 /*   By: smenard <smenard@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 11:29:37 by smenard           #+#    #+#             */
-/*   Updated: 2025/11/29 12:22:48 by smenard          ###   ########.fr       */
+/*   Updated: 2025/12/01 13:31:26 by smenard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # endif
 
 # ifndef LIST_MAX_CONTENT_LENGTH
-#  define LIST_MAX_CONTENT_LENGTH BUFFER_SIZE
+#  define LIST_MAX_CONTENT_LENGTH 4096
 # endif
 
 # include <unistd.h>
